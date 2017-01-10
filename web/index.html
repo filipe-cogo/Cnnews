@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trump vs. Clinton CNN News</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <script src="http://code.jquery.com/jquery-1.10.2.js"
+	type="text/javascript"></script>
+        <script src="js/crawler.js" type="text/javascript"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>
+            What you want to search about ? 
+            <form>
+                <input type="text" id="q"/>
+            </form>
+            
+            <strong>Ajax Response:</strong>
+            <div id="ajaxGetUserServletResponse"></div>
+        </div>
     </body>
 </html>
