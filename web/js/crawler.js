@@ -52,11 +52,9 @@ $(document).ready(function() {
                                 if (key == "description")
                                     description = value;                                
                             });
-                            
-                            alert(title);
-                            
+                                                        
                             //create new html element for each news
-                            var element = "<div class=\"result\" id=\"result" + i + "><div class=\"title\" id=\"title" + i + "\"><a target=\"_blank\" href=\"" + link + "\">" + title + "</a></div><div class=\"description\" id=\"description\"" + i + ">" + description + "</div></div>";
+                            var element = "<div class=\"result\" id=\"result" + i + "\"><div class=\"title\" id=\"title" + i + "\"><a target=\"_blank\" href=\"" + link + "\">" + title + "</a></div><div class=\"description\" id=\"description" + i + "\">" + description + "</div></div>";
                             $("#queryResult").append(element);
                         });
                     }

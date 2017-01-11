@@ -32,7 +32,7 @@ h2{
     visibility: hidden;
 }
 
-.title{
+a.title{
     color: graytext;
     font-family: serif;
     font-size: large;
@@ -44,5 +44,9 @@ h2{
 }
 
 #queryResult{
-    margin-top: 50px;
+    margin-top: 10px;
+}
+
+.result{
+    margin-bottom: 15px;
 }
