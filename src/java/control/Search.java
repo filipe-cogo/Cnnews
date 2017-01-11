@@ -51,7 +51,7 @@ public class Search {
             
             for (int i =0; i < feed.getItemCount(); i++){
                 FeedItem item = feed.getItem(i);
-                
+
                 if (!indexedFeedsIds.contains((String)item.getGUID())){
                     Document document = new Document();
                     document.add(new TextField("id", item.getGUID(), Field.Store.YES));
@@ -89,21 +89,24 @@ public class Search {
         ScoreDoc[] hits = docs.scoreDocs;
         
         JSONArray jsonArray = new JSONArray();
-        JSONObject json = new JSONObject();
         for (int i = 0; i < hits.length; i++){            
             int docId = hits[i].doc;
             Document d = searcher.doc(docId);
             
+            //create new json object
+            JSONObject json = new JSONObject();   
             json.put("id", d.get("id"));
-            json.put("title", d.get("title"));
             json.put("link", d.get("link"));
+            json.put("title", d.get("title"));
             json.put("description", d.get("description"));
             
+
             jsonArray.put(json);
         }
         
         reader.close();        
         String ret = jsonArray.toString();
+        
         return ret;
     }
 }

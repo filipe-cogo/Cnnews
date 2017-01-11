@@ -40,7 +40,7 @@ public class SearchServlet extends HttpServlet {
             Search search = new Search();
             String feeds = search.queryIndexedFeeds(query);
             
-            response.setContentType("text/json");
+            response.setContentType("application/json");
             response.getWriter().write(feeds);
             response.getWriter().close();
         } catch (ParseException ex) {

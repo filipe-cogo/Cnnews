@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -39,23 +40,30 @@ public class Crawl {
                 URL url = new URL("http://rss.cnn.com/rss/cnn_latest.rss");
                 Feed feed = FeedParser.parse(url);
                 
+                //for (int i = 0; i < feed.getItemCount(); i++)
+                //    System.out.println(feed.getItem(i).getTitle());
+                
                 //index feeds for later retrieval
                 Search s = new Search();
                 s.indexFeed(feed);
                 
                 //put feeds information on JSON
-                JSONObject json = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
                 for (int i =0; i < feed.getItemCount(); i++){
+                    JSONObject json = new JSONObject();
+
                     FeedItem item = feed.getItem(i);
                     
                     json.put("id", item.getGUID());
                     json.put("title", item.getTitle());
                     json.put("link", item.getLink().toURI().toString());
                     json.put("description", item.getDescriptionAsText());
+                    
+                    jsonArray.put(json);
                 }
                 
                 //for servlet forwarding
-                return json.toString();
+                return jsonArray.toString();
             } catch (MalformedURLException ex) {
                 Logger.getLogger(Crawl.class.getName()).log(Level.SEVERE, null, ex);
             }

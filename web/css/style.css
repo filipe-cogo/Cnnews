@@ -28,6 +28,21 @@ h2{
     visibility: hidden;
 }
 
-#id{
+.id{
     visibility: hidden;
+}
+
+.title{
+    color: graytext;
+    font-family: serif;
+    font-size: large;
+}
+
+.description{
+    font-family: sans-serif;
+    font-size: medium;
+}
+
+#queryResult{
+    margin-top: 50px;
 }
