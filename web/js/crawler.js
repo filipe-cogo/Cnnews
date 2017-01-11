@@ -1,4 +1,16 @@
 $(document).ready(function() {
+    $("#sync").click(function() {
+		$.ajax({
+			url : 'Crawler',
+			data : {
+				action : "sync"
+			},
+			success : function(responseText) {
+				$("#ajaxServletResponse").html(responseText);
+			}
+		});
+	});
+    
 	$("#q").blur(function() {
 		$.ajax({
 			url : 'Crawler',
@@ -6,7 +18,7 @@ $(document).ready(function() {
 				q : $("#q").val()
 			},
 			success : function(responseText) {
-				$("#ajaxGetUserServletResponse").text(responseText);
+				$("#ajaxServletResponse").text(responseText);
 			}
 		});
 	});

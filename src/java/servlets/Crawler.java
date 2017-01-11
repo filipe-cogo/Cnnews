@@ -5,13 +5,21 @@
  */
 package servlets;
 
+import it.sauronsoftware.feed4j.FeedIOException;
+import it.sauronsoftware.feed4j.FeedParser;
+import it.sauronsoftware.feed4j.FeedXMLParseException;
+import it.sauronsoftware.feed4j.UnsupportedFeedException;
+import it.sauronsoftware.feed4j.bean.Feed;
+import it.sauronsoftware.feed4j.bean.FeedItem;
 import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,11 +40,32 @@ public class Crawler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String query = request.getParameter("q");
-        System.out.println(query);
-        
-        response.setContentType("text/plain");
-        response.getWriter().print(query);
+        String action = request.getParameter("action");
+        if (action.equals("sync")){
+            try {
+                URL url = new URL("http://rss.cnn.com/rss/cnn_latest.rss");
+                Feed feed = FeedParser.parse(url);
+                
+                StringBuilder sb = new StringBuilder();
+                for (int i =0; i < feed.getItemCount(); i++){
+                    FeedItem item = feed.getItem(i);
+
+                    //sb.append("Title: " + item.getTitle() + "\n");
+                    //sb.append("Link: " + item.getLink() + "\n");
+                    //sb.append("Plain text description: " + item.getDescriptionAsText() + "\n");      
+                    sb.append(item.getDescriptionAsHTML());
+                }
+                
+                response.setContentType("text/html");
+                response.getWriter().print(sb);
+            } catch (FeedIOException ex) {
+                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FeedXMLParseException ex) {
+                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedFeedException ex) {
+                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     /**
