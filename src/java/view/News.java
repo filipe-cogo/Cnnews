@@ -10,9 +10,18 @@ package view;
  * @author filipe
  */
 public class News {
+    private String id;
     private String title;
     private String link;
     private String description;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void setTitle(String title) {
         this.title = title;
