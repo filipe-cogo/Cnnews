@@ -15,20 +15,22 @@
     <body>
         <div class="centerer">
             <div id="main">
-                <h1>Clinton vs. Trump battle on CNNews <input type="button" value="Sync news" id="sync"/></h1>
-
-                <form>
-                    <div>Whom you want to know about ?
-                        <select name="q">
-                            <option value="Both">Both</option>
-                            <option value="Clinton">Clinton</option>
-                            <option value="Trump">Trump</option>
-                        </select>
-                        <input type="button" value="Search"/>
-                    </div>
-                </form>
+                <h1>Clinton vs. Trump battle on CNNews</h1>
+                <h2>Watch live ! <input type="button" id="sync" value="Sync news"/></h2>
+                <div id="searchDiv">Whom you want to know about ?
+                    <form>
+                    <select id="querySelect">
+                        <option value="Clinton Trump">Clinton and Trump</option>
+                        <option value="Clinton">Just Clinton</option>
+                        <option value="Trump">Just Trump</option>
+                    </select>
+                    <input type="button" id="search" value="Search"/>
+                    </form>
+                </div>
+                <div id="errorDiv"></div>
 
                 <div id="queryResult">
+                    <div id="id"></div>
                     <div id="title"></div>
                     <div id="url"></div>
                     <div id="description"></div>

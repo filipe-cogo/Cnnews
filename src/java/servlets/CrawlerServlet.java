@@ -6,11 +6,11 @@
 package servlets;
 
 import control.Crawl;
-import control.Search;
 import it.sauronsoftware.feed4j.FeedIOException;
 import it.sauronsoftware.feed4j.FeedXMLParseException;
 import it.sauronsoftware.feed4j.UnsupportedFeedException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -36,17 +36,20 @@ public class CrawlerServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, URISyntaxException {
         
         try {
             //gather most recent rss feeds from cnn.com
             Crawl crawler = new Crawl();
             String feeds = crawler.getMostRecentRSSFeed();
-                
-            response.setContentType("text/json");
+            
+            response.setContentType("application/json");
             response.getWriter().print(feeds);
+            response.getWriter().close();
         } catch (FeedIOException | FeedXMLParseException | UnsupportedFeedException ex) {
             Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.setContentType("text/plain");
+            response.getWriter().print("Error obtaining CNN news feeds. Please, wait for a minute and try again.");            
         }
     }
 
@@ -62,7 +65,11 @@ public class CrawlerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -76,7 +83,11 @@ public class CrawlerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

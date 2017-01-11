@@ -11,4 +11,23 @@
 
 h1{
     color: graytext;
+    font-family: sans-serif;
+}
+
+h2{
+    font-family: cursive;
+}
+
+#searchDiv {
+    visibility: hidden;
+}
+
+#errorDiv{
+    color: red;
+    font-family: sans-serif;
+    visibility: hidden;
+}
+
+#id{
+    visibility: hidden;
 }

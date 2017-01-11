@@ -27,6 +27,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -35,7 +36,7 @@ import org.json.JSONObject;
  */
 public class Search {
     private static List<String> indexedFeedsIds = new ArrayList<String>();
-    private Directory index = new RAMDirectory();
+    private static Directory index = new RAMDirectory();
 
     /**
      * Index all feeds by 'id', 'title', 'link' and 'description' in a static index
@@ -69,12 +70,12 @@ public class Search {
     }
     
     /**
-     * Query previously indexed feeds through 'title' and 'description' fields
+     * Search for previously indexed feeds through 'title' and 'description' fields, according to a query
      * 
-     * @param query
+     * @param query terms to be considered in the search
      * @return a JSON representation of the retrieved feeds
-     * @throws ParseException
-     * @throws IOException 
+     * @throws ParseException query parsing failure
+     * @throws IOException  I/O issue when creating index
      */
     public String queryIndexedFeeds(String query) throws ParseException, IOException{
         IndexReader reader = DirectoryReader.open(index);
@@ -87,6 +88,7 @@ public class Search {
         TopDocs docs = searcher.search(queryParser.parse(query), 25);
         ScoreDoc[] hits = docs.scoreDocs;
         
+        JSONArray jsonArray = new JSONArray();
         JSONObject json = new JSONObject();
         for (int i = 0; i < hits.length; i++){            
             int docId = hits[i].doc;
@@ -96,10 +98,12 @@ public class Search {
             json.put("title", d.get("title"));
             json.put("link", d.get("link"));
             json.put("description", d.get("description"));
+            
+            jsonArray.put(json);
         }
         
-        reader.close();
-        
-        return json.toString();
+        reader.close();        
+        String ret = jsonArray.toString();
+        return ret;
     }
 }

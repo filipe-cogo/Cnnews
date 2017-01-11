@@ -12,6 +12,7 @@ import it.sauronsoftware.feed4j.UnsupportedFeedException;
 import it.sauronsoftware.feed4j.bean.Feed;
 import it.sauronsoftware.feed4j.bean.FeedItem;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,23 +33,28 @@ public class Crawl {
          * @throws FeedXMLParseException
          * @throws UnsupportedFeedException 
          */
-        public String getMostRecentRSSFeed() throws FeedIOException, FeedXMLParseException, UnsupportedFeedException{
+        public String getMostRecentRSSFeed() throws FeedIOException, FeedXMLParseException, UnsupportedFeedException, URISyntaxException{
             try {
+                //get most recent feeds
                 URL url = new URL("http://rss.cnn.com/rss/cnn_latest.rss");
                 Feed feed = FeedParser.parse(url);
+                
+                //index feeds for later retrieval
                 Search s = new Search();
                 s.indexFeed(feed);
                 
+                //put feeds information on JSON
                 JSONObject json = new JSONObject();
                 for (int i =0; i < feed.getItemCount(); i++){
                     FeedItem item = feed.getItem(i);
                     
                     json.put("id", item.getGUID());
                     json.put("title", item.getTitle());
-                    json.put("link", item.getLink());
+                    json.put("link", item.getLink().toURI().toString());
                     json.put("description", item.getDescriptionAsText());
                 }
                 
+                //for servlet forwarding
                 return json.toString();
             } catch (MalformedURLException ex) {
                 Logger.getLogger(Crawl.class.getName()).log(Level.SEVERE, null, ex);

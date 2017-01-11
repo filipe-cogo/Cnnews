@@ -33,6 +33,7 @@ public class SearchServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        //use Search class for query indexed feeds
         try {
             String query = request.getParameter("q");
             
@@ -41,10 +42,11 @@ public class SearchServlet extends HttpServlet {
             
             response.setContentType("text/json");
             response.getWriter().write(feeds);
+            response.getWriter().close();
         } catch (ParseException ex) {
             Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.setContentType("text/plain");
-            response.getWriter().write("Parsing error. Please, re-formulate the query.");
+            response.getWriter().write("Query parsing error. Please, re-formulate your query.");
         }
     }
 
