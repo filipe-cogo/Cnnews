@@ -1,0 +1,14 @@
+#main{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.centerer{
+    margin : 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+h1{
+    color: graytext;
+}

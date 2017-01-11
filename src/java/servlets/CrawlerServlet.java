@@ -26,11 +26,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author filipe
  */
 @WebServlet("/Crawler")
-public class Crawler extends HttpServlet {
+public class CrawlerServlet extends HttpServlet {
 
     /**
+     * Synchronizes the 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods. 
      *
      * @param request servlet request
      * @param response servlet response
@@ -41,6 +42,7 @@ public class Crawler extends HttpServlet {
             throws ServletException, IOException {
         
         String action = request.getParameter("action");
+        
         if (action.equals("sync")){
             try {
                 URL url = new URL("http://rss.cnn.com/rss/cnn_latest.rss");
@@ -49,21 +51,22 @@ public class Crawler extends HttpServlet {
                 StringBuilder sb = new StringBuilder();
                 for (int i =0; i < feed.getItemCount(); i++){
                     FeedItem item = feed.getItem(i);
-
-                    //sb.append("Title: " + item.getTitle() + "\n");
-                    //sb.append("Link: " + item.getLink() + "\n");
-                    //sb.append("Plain text description: " + item.getDescriptionAsText() + "\n");      
-                    sb.append(item.getDescriptionAsHTML());
+                    
+                    sb.append("Title: " + item.getTitle() + "\n");
+                    sb.append("Link: " + item.getLink() + "\n");
+                    sb.append("Plain text description: " + item.getDescriptionAsText() + "\n");      
+                    //sb.append(item.getDescriptionAsHTML());
+      
                 }
                 
                 response.setContentType("text/html");
                 response.getWriter().print(sb);
             } catch (FeedIOException ex) {
-                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FeedXMLParseException ex) {
-                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnsupportedFeedException ex) {
-                Logger.getLogger(Crawler.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CrawlerServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

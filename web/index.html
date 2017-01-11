@@ -6,19 +6,33 @@
         <title>Trump vs. Clinton CNN News</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
+        <link rel="stylesheet" href="css/style.css">
+        
         <script src="http://code.jquery.com/jquery-1.10.2.js"
 	type="text/javascript"></script>
         <script src="js/crawler.js" type="text/javascript"></script>
     </head>
     <body>
-        <div>
-            <form>
-                <input type="button" value="Sync CNN News" id="sync"/>
-                What you want to search about ? <input type="text" id="q"/>
-            </form>
-            
-            <strong>Ajax Response:</strong>
-            <div id="ajaxServletResponse"></div>
+        <div class="centerer">
+            <div id="main">
+                <h1>Clinton vs. Trump battle on CNNews <input type="button" value="Sync last news" id="sync"/></h1>
+
+                <form>
+                    <div>Whom you want to know about ?
+                        <select name="q">
+                            <option value="Clinton">Clinton</option>
+                            <option value="Trump">Trump</option>
+                        </select>
+                        <input type="button" value="Search"/>
+                    </div>
+                </form>
+
+                <div id="queryResult">
+                    <div id="title"></div>
+                    <div id="url"></div>
+                    <div id="description"></div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

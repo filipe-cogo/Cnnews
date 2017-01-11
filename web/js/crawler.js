@@ -6,7 +6,7 @@ $(document).ready(function() {
 				action : "sync"
 			},
 			success : function(responseText) {
-				$("#ajaxServletResponse").html(responseText);
+				$("#title").html(responseText);
 			}
 		});
 	});
