@@ -40,14 +40,11 @@ public class Crawl {
                 URL url = new URL("http://rss.cnn.com/rss/cnn_latest.rss");
                 Feed feed = FeedParser.parse(url);
                 
-                //for (int i = 0; i < feed.getItemCount(); i++)
-                //    System.out.println(feed.getItem(i).getTitle());
-                
                 //index feeds for later retrieval
                 Search s = new Search();
                 s.indexFeed(feed);
                 
-                //put feeds information on JSON
+                //put feeds information on JSON format
                 JSONArray jsonArray = new JSONArray();
                 for (int i =0; i < feed.getItemCount(); i++){
                     JSONObject json = new JSONObject();
@@ -62,7 +59,7 @@ public class Crawl {
                     jsonArray.put(json);
                 }
                 
-                //for servlet forwarding
+                //servlet forwarding
                 return jsonArray.toString();
             } catch (MalformedURLException ex) {
                 Logger.getLogger(Crawl.class.getName()).log(Level.SEVERE, null, ex);

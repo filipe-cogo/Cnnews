@@ -28,7 +28,7 @@ public class CrawlerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods. 
+     * methods. This servlet forwards the crawling of last CNN news and index all information.
      *
      * @param request servlet request
      * @param response servlet response
@@ -43,6 +43,7 @@ public class CrawlerServlet extends HttpServlet {
             Crawl crawler = new Crawl();
             String feeds = crawler.getMostRecentRSSFeed();
             
+            //forwards the content to front-end
             response.setContentType("application/json");
             response.getWriter().print(feeds);
             response.getWriter().close();

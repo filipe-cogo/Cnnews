@@ -1,17 +1,19 @@
 $(document).ready(function() {
     //action for sync button
     $("#sync").click(function() {
+                //disable button while ajax call is not finished
                 $(document).ajaxStart(function(){
                     $("#sync").prop( "disabled", true);
                 });
                 $(document).ajaxComplete(function(){
                     $("#sync").prop( "disabled", false);
                 });
+                //ajax call
 		$.ajax({
 			url : 'Crawler',
                         data: {},
 			success : function() {
-                                //shows search form
+                                //if feeds are synchronized, shows search form
                                 $("#searchDiv").css("visibility", "visible");
 			},
                         error : function(errorText){
@@ -25,6 +27,7 @@ $(document).ready(function() {
     
     //action for search button
     $("#search").click(function() {
+        //blank query results
         $("#queryResult").html("");
 	$.ajax({
         	url : 'Search',
@@ -33,15 +36,17 @@ $(document).ready(function() {
                     q : $("#querySelect").val()
 		},
                 success : function(data) {
+                    //any results found ?
                     if (data == null || data.length == 0){
                         $("#queryResult").html("No results found.");
                     } else{
+                        //found it !
                         $.each(data, function(i, item) {
                             var id = "";
                             var link = "";
                             var title = "";
                             var description = "";     
-                            
+                            //iterate over JSON objects containing the news information
                             $.each(item, function(key, value) {
                                 if (key == "id")
                                     id = value;
@@ -54,7 +59,7 @@ $(document).ready(function() {
                             });
                                                         
                             //create new html element for each news
-                            var element = "<div class=\"result\" id=\"result" + i + "\"><div class=\"title\" id=\"title" + i + "\"><a target=\"_blank\" href=\"" + link + "\">" + title + "</a></div><div class=\"description\" id=\"description" + i + "\">" + description + "</div></div>";
+                            var element = "<div class=\"result\" id=\"result" + i + "\"><div class=\"title\" id=\"title" + i + "\"><a class=\"titleLink\" target=\"_blank\" href=\"" + link + "\">" + title + "</a></div><div class=\"description\" id=\"description" + i + "\">" + description + "</div></div>";
                             $("#queryResult").append(element);
                         });
                     }

@@ -31,7 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- *
+ * Class that implements search capabilities
+ * 
  * @author filipe
  */
 public class Search {
@@ -39,7 +40,7 @@ public class Search {
     private static Directory index = new RAMDirectory();
 
     /**
-     * Index all feeds by 'id', 'title', 'link' and 'description' in a static index
+     * Index all feeds by 'id', 'title', 'link' and 'description' in a static inverted index
      * 
      * @param feed Feeds to be indexed
      */
@@ -78,6 +79,7 @@ public class Search {
      * @throws IOException  I/O issue when creating index
      */
     public String queryIndexedFeeds(String query) throws ParseException, IOException{
+        //creates IndexReader with analyzers
         IndexReader reader = DirectoryReader.open(index);
         IndexSearcher searcher = new IndexSearcher(reader);
         StandardAnalyzer analyzer = new StandardAnalyzer();
@@ -85,9 +87,11 @@ public class Search {
             new String[] {"title", "description"},
             analyzer);
 
+        //search for documents
         TopDocs docs = searcher.search(queryParser.parse(query), 25);
         ScoreDoc[] hits = docs.scoreDocs;
         
+        //iterate over results and put on JSON format
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < hits.length; i++){            
             int docId = hits[i].doc;

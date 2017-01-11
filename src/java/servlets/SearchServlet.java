@@ -23,7 +23,7 @@ public class SearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * methods. This servlet attends to search requests over indexed CNN news
      *
      * @param request servlet request
      * @param response servlet response
@@ -40,6 +40,7 @@ public class SearchServlet extends HttpServlet {
             Search search = new Search();
             String feeds = search.queryIndexedFeeds(query);
             
+            //forward JSON with search results to front-end
             response.setContentType("application/json");
             response.getWriter().write(feeds);
             response.getWriter().close();
@@ -85,7 +86,7 @@ public class SearchServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet to attend search queries over synchronized CNN news.";
     }// </editor-fold>
 
 }
